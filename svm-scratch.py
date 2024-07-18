@@ -12,7 +12,39 @@ class svm:
             self.ax = self.fig.add_subplot(1,1,1)
     
     def fit(self, data):
-        pass
+        self.data = data
+        
+        
+        transforms = [[1,1],[-1,1],[1,-1],[-1,-1]]
+        
+        opt_data = {}
+        all_data = []
+        
+        for yi in self.data:
+            for features in self.data[yi]:
+                for feature in features:
+                    all_data.append(feature)
+                    
+        self.max_feat_val =  max(all_data)
+        self.min_feat_val =  min(all_data)
+        all_data = None
+        
+        step_size = [self.max_feat_val * 0.1,
+                     self.max_feat_val * 0.01,
+                     self.max_feat_val * 0.001] # point of expense
+        
+        # extremely expensive
+        b_range_mutilple = 5
+        
+        b_multiple = 5
+        
+        latest_opt = self.max_feat_val * 10
+        
+        for step in step_size:
+            w = np.array([latest_opt,latest_opt])
+            optimized = False  
+            while not optimized:
+                pass
     
     def predict(self, features):
         # sign(x.w + b)
