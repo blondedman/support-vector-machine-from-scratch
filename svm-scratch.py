@@ -4,17 +4,19 @@ import numpy as np
 style.use('ggplot')
 
 class svm:
+    
     def __init__(self, visualization=True):
+        
         self.visualization = visualization
         self.colors = {1:'r', -1:'b'}
+        
         if self.visualization:
             self.fig = plt.figure()
             self.ax = self.fig.add_subplot(1,1,1)
     
     def fit(self, data):
+        
         self.data = data
-        
-        
         transforms = [[1,1],[-1,1],[1,-1],[-1,-1]]
         
         opt_data = {}
@@ -44,7 +46,36 @@ class svm:
             w = np.array([latest_opt,latest_opt])
             optimized = False  
             while not optimized:
-                pass
+                for b in np.arange(self.max_feat_val * b_range_mutilple * -1,
+                                   self.max_feat_val * b_range_mutilple,
+                                   step * b_multiple):
+                    for t in transforms:
+                        wt = w * t
+                        found_option = True
+                        for i in self.data:
+                            for xi in self.data[i]:
+                                yi = i
+                                if not yi * (np.dot(wt,xi)+b) >= 1:
+                                    found_option = False
+                                    
+                        if found_option:
+                            opt_data[np.linalg.norm(wt)] = [wt,b]
+                            
+                if w[0] < 0:
+                    optimized = True
+                    print('optimized a step')
+                
+                else:
+                    w = w - step
+                    
+            norms = sorted([n for n in opt_data])
+            opt_choice = opt_data(norms[0])
+            
+            # ||w|| = [w,b]
+            self.w = opt_choice[0]
+            self.b = opt_choice[1]
+            
+            latest_opt = opt_choice[0][0] + step * 2 
     
     def predict(self, features):
         # sign(x.w + b)
