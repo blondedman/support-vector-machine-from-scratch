@@ -76,18 +76,23 @@ class svm:
             self.b = opt_choice[1]
             
             latest_opt = opt_choice[0][0] + step * 2 
+            
+        for i in self.data:
+            for xi in self.data[i]:
+                yi = i
+                print(xi,':',yi*(np.dot(self.w,xi)+self.b))
     
     def predict(self, features):
         
         # sign(x.w + b)
         classification = np.sign(np.dot(np.array(features),self.w)+self.b)
         if classification != 0 and self.visualization:
-            self.ax.scatter(features[0], features[1], s=200, marker="*", c=self.colors[classification])
+            self.ax.scatter(features[0], features[1], s=20, marker="*", c=self.colors[classification])
         return classification
 
     def visualize(self):
         
-        [[self.ax.scatter(x[0],x[1],s=100 , color=self.colors[i]) for x in data[i]] for i in data]
+        [[self.ax.scatter(x[0], x[1], s=20, color=self.colors[i]) for x in data[i]] for i in data]
         
         # hyperplane = x.w + b
         # v = x.w + b
@@ -120,4 +125,10 @@ data = {-1: np.array([[1,7],[2,8],[3,8]]),
 
 SVM = svm()
 SVM.fit(data)
+
+predict = [[0,10],[1,3],[3,4],[3,5]]
+
+for p in predict:
+    SVM.predict(p)
+    
 SVM.visualize()
