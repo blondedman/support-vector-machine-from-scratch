@@ -69,7 +69,7 @@ class svm:
                     w = w - step
                     
             norms = sorted([n for n in opt_data])
-            opt_choice = opt_data(norms[0])
+            opt_choice = opt_data[norms[0]]
             
             # ||w|| = [w,b]
             self.w = opt_choice[0]
@@ -78,10 +78,46 @@ class svm:
             latest_opt = opt_choice[0][0] + step * 2 
     
     def predict(self, features):
+        
         # sign(x.w + b)
         classification = np.sign(np.dot(np.array(features),self.w)+self.b)
-        
+        if classification != 0 and self.visualization:
+            self.ax.scatter(features[0], features[1], s=200, marker="*", c=self.colors[classification])
         return classification
 
+    def visualize(self):
+        
+        [[self.ax.scatter(x[0],x[1],s=100 , color=self.colors[i]) for x in data[i]] for i in data]
+        
+        # hyperplane = x.w + b
+        # v = x.w + b
+        def hyperplane(x,w,b,v):
+            return (-w[0] * x - b + v ) / w[1]
+           
+        datarange = (self.min_feat_val * 0.9, self.max_feat_val * 1.1)
+        hyp_x_min = datarange[0]
+        hyp_x_max = datarange[1]
+        
+        # +ve hyperplane
+        psv1 = hyperplane(hyp_x_min,self.w,self.b,1)
+        psv2 = hyperplane(hyp_x_max,self.w,self.b,1)
+        self.ax.plot([hyp_x_min,hyp_x_max],[psv1,psv2])
+        
+        # -ve hyperplane
+        nsv1 = hyperplane(hyp_x_min,self.w,self.b,-1)
+        nsv2 = hyperplane(hyp_x_max,self.w,self.b,-1)
+        self.ax.plot([hyp_x_min,hyp_x_max],[nsv1,nsv2])
+        
+        # boundary
+        db1 = hyperplane(hyp_x_min,self.w,self.b,0)
+        db2 = hyperplane(hyp_x_max,self.w,self.b,0)
+        self.ax.plot([hyp_x_min,hyp_x_max],[db1,db2])
+        
+        plt.show()
+         
 data = {-1: np.array([[1,7],[2,8],[3,8]]),
          1: np.array([[5,1],[6,-1],[7,3]])}
+
+SVM = svm()
+SVM.fit(data)
+SVM.visualize()
