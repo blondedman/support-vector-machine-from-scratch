@@ -31,6 +31,7 @@ class svm:
         self.min_feat_val =  min(all_data)
         all_data = None
         
+        # steps cannot be threaded
         step_size = [self.max_feat_val * 0.1,
                      self.max_feat_val * 0.01,
                      self.max_feat_val * 0.001] # point of expense
