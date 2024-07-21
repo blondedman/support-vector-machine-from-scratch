@@ -26,6 +26,8 @@ class svm:
             for features in self.data[yi]:
                 for feature in features:
                     all_data.append(feature)
+        
+        print(all_data)
                     
         self.max_feat_val =  max(all_data)
         self.min_feat_val =  min(all_data)
