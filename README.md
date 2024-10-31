@@ -1,2 +1,2 @@
 # support vector machine from scratch
-<p>building svm (support vector machine) from scratch<p/>
+<p>building the support vector machine (svm) model from scratch<p/>
