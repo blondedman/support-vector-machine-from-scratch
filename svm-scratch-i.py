@@ -27,10 +27,11 @@ class svm:
                 for feature in features:
                     all_data.append(feature)
         
-        print(all_data)
+        print('all data:', all_data)
                     
         self.max_feat_val =  max(all_data)
         self.min_feat_val =  min(all_data)
+        
         all_data = None
         
         # steps cannot be threaded
@@ -83,14 +84,16 @@ class svm:
         for i in self.data:
             for xi in self.data[i]:
                 yi = i
-                print(xi,':',yi*(np.dot(self.w,xi)+self.b))
+                # print(xi,':',yi*(np.dot(self.w,xi)+self.b))
     
     def predict(self, features):
         
         # sign(x.w + b)
         classification = np.sign(np.dot(np.array(features),self.w)+self.b)
+        
         if classification != 0 and self.visualization:
             self.ax.scatter(features[0], features[1], s=20, marker="*", c=self.colors[classification])
+        
         return classification
 
     def visualize(self):
@@ -129,9 +132,9 @@ data = {-1: np.array([[1,7],[2,8],[3,8]]),
 SVM = svm()
 SVM.fit(data)
 
-predict = [[0,10],[1,3],[3,4],[3,5]]
+predict = [[0,5],[1,3],[3,4],[3,5]]
 
 for p in predict:
-    SVM.predict(p)
+    print(p,SVM.predict(p))
     
 SVM.visualize()

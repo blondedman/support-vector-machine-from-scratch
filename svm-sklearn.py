@@ -2,7 +2,7 @@ from sklearn import preprocessing, model_selection, svm
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv(r"C:\Users\HP\Desktop\projects\machine-learning\support-vector-machine-from-scratch\breast-cancer-wisconsin.data")
+df = pd.read_csv("breast-cancer-wisconsin.data")
 df.replace('?',-99999,inplace=True)
 df.drop(['id'],axis=1,inplace=True)
 
@@ -23,4 +23,4 @@ example_measures = example_measures.reshape(len(example_measures),-1)
 
 prediction = clf.predict(example_measures)
 
-print(prediction)
+print('predicted class:', prediction)
